@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "102405612446",
+    "firebase_url": "https://ghar-ka-khaana-e49d4.firebaseio.com",
+    "project_id": "ghar-ka-khaana-e49d4",
+    "storage_bucket": "ghar-ka-khaana-e49d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102405612446:android:7a21de3320a98ba99bac8f",
+        "android_client_info": {
+          "package_name": "com.GharKaKhaana.ghar_ka_khaana"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "102405612446-riso3rlvlforvu804k2h57v355gpvdsv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.GharKaKhaana.ghar_ka_khaana",
+            "certificate_hash": "fbd05fe43785d65414d4b161351634bb8ba20fa4"
+          }
+        },
+        {
+          "client_id": "102405612446-suii6dgc07foolkqeiljc93ap15l0j38.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpdjVsYuiavv2h6ALm6fW8tBdnXFQ8C6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "102405612446-suii6dgc07foolkqeiljc93ap15l0j38.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

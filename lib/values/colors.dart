@@ -10,4 +10,5 @@ class AppColors {
   static const Color whiteShade3 = Color.fromARGB(255, 214, 214, 214);
   static const Color buttonclr = Color(0xFFEF5350);
   static const Color dividerclr = Color(0xFF000000);
+  static const Color blueGrey = Color(0xFF263238);
 }

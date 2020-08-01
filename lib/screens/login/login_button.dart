@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:ghar_ka_khaana/utils/constants.dart';
 import 'package:ghar_ka_khaana/values/values.dart';
+import 'package:ghar_ka_khaana/utils/utils.dart';
 
 class LoginButton extends StatelessWidget {
   final String loginType;
   final AssetImage icon;
+  final Function onPress;
 
-  LoginButton({@required this.loginType, @required this.icon});
+  LoginButton({@required this.loginType, @required this.icon, this.onPress});
 
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
     return GestureDetector(
-      onTap: () => print('Sign In with google'),
+      onTap: onPress,
       child: Container(
         decoration: BoxDecoration(
             color: AppColors.white,

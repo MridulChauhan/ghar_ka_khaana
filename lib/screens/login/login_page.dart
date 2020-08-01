@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
-import 'package:ghar_ka_khaana/login/login_button.dart';
+import 'package:ghar_ka_khaana/components/boxlogin_textfield.dart';
+import 'package:ghar_ka_khaana/screens/login/login_button.dart';
+import 'package:ghar_ka_khaana/services/sign_in.dart';
 import 'package:ghar_ka_khaana/utils/constants.dart';
+import 'package:ghar_ka_khaana/utils/routes.dart';
 import 'package:ghar_ka_khaana/values/colors.dart';
 import 'package:ghar_ka_khaana/values/values.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String phoneNumber = "";
+  TextEditingController _phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
@@ -49,29 +53,38 @@ class _LoginPageState extends State<LoginPage> {
             Spacer(
               flex: 10,
             ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'Mobile no.',
-                style: _theme.textTheme.headline3,
-              ),
-            ),
-            ListTile(
+            // Align(
+            //   alignment: Alignment.centerLeft,
+            //   child: Text(
+            //     'Mobile no.',
+            //     style: _theme.textTheme.headline3,
+            //   ),
+            // ),
+            BoxLoginTextfield(
+              controller: _phoneController,
+              autoFocus: true,
+              isDataValid: true,
+              fieldHeight: ScreenUtil().setHeight(50.0),
               leading: Text(
                 '+91',
-                style: _theme.textTheme.headline1,
+                style: _theme.textTheme.headline2,
               ),
-              title: TextField(
-                decoration: InputDecoration(labelText: "Phone Number"),
-                keyboardType: TextInputType.phone,
-                onChanged: (value) => phoneNumber = value,
-              ),
+              acceptedColor: AppColors.blueGrey,
+              rejectColor: Colors.red,
+              //inputType: String,
+              //maxLength: 200,
+              onChanged: (value) {
+                setState(() {
+                  phoneNumber = value;
+                });
+              },
+              title: "Mobile No.",
             ),
             Spacer(
               flex: 2,
             ),
             Container(
-              width: ScreenUtil.screenWidth,
+              width: 0.5 * ScreenUtil.screenWidth,
               height: ScreenUtil().setHeight(50),
               child: RaisedButton(
                 color: AppColors.buttonclr,
@@ -123,6 +136,7 @@ class _LoginPageState extends State<LoginPage> {
             LoginButton(
               loginType: "Continue with Facebook",
               icon: AssetImage('assets/facebook.png'),
+              onPress: () => print('Facebook'),
             ),
             Spacer(
               flex: 2,
@@ -130,6 +144,14 @@ class _LoginPageState extends State<LoginPage> {
             LoginButton(
               loginType: "Continue with Google",
               icon: AssetImage('assets/google.png'),
+              onPress: () async {
+                var result = await SignInMethods().signInWithGoogle();
+                print(result);
+                if (result == "success")
+                  Navigator.pushNamed(context, AppRoutes.homePage);
+                else
+                  print("failed");
+              },
             ),
             Spacer(
               flex: 2,
@@ -137,6 +159,8 @@ class _LoginPageState extends State<LoginPage> {
             LoginButton(
               loginType: "Continue with Email",
               icon: AssetImage('assets/gmail.png'),
+              onPress: () =>
+                  Navigator.pushNamed(context, AppRoutes.emailLoginPage),
             ),
             Spacer(),
             Text(
