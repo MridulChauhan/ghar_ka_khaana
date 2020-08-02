@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ghar_ka_khaana/screens/landing/landing.dart';
 import 'package:ghar_ka_khaana/screens/login/email_login.dart';
+import 'package:ghar_ka_khaana/screens/login/email_signup.dart';
 import 'package:ghar_ka_khaana/screens/login/login_page.dart';
 import 'package:ghar_ka_khaana/screens/home_screen.dart';
+import 'package:ghar_ka_khaana/screens/login/otp_screen.dart';
 import 'package:ghar_ka_khaana/utils/utils.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.loginPage: (context) => LoginPage(),
         AppRoutes.homePage: (context) => HomeScreen(),
         AppRoutes.emailLoginPage: (context) => EmailLoginScreen(),
+        AppRoutes.otpScreen: (context) => OTPScreen(),
+        AppRoutes.emailsignUpScreen: (context) => SignUpScreen(),
       },
     );
   }

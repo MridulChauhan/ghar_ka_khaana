@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:ghar_ka_khaana/services/alert_generation.dart';
 import 'package:ghar_ka_khaana/utils/routes.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-
-  var key = new GlobalKey<ScaffoldState>();
 
   Future<String> signInWithGoogle() async {
     try {
@@ -52,12 +51,7 @@ class SignInMethods {
         Navigator.pushNamed(context, AppRoutes.homePage);
       }
     } catch (error) {
-      key.currentState.showSnackBar(
-        SnackBar(
-          content: Text("$error"),
-        ),
-      );
-      //AlertGeneration().generateAlert(error, context);
+      AlertGeneration().generateAlert(error, context);
     }
     return 'User Registered : $email';
   }
@@ -70,12 +64,7 @@ class SignInMethods {
         Navigator.pushNamed(context, AppRoutes.homePage);
       }
     } catch (error) {
-      key.currentState.showSnackBar(
-        SnackBar(
-          content: Text("$error"),
-        ),
-      );
-      //AlertGeneration().generateAlert(error, context);
+      AlertGeneration().generateAlert(error, context);
     }
     return 'User Logged In : $email';
   }

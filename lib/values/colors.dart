@@ -11,4 +11,5 @@ class AppColors {
   static const Color buttonclr = Color(0xFFEF5350);
   static const Color dividerclr = Color(0xFF000000);
   static const Color blueGrey = Color(0xFF263238);
+  static const Color appbarclr = Color(0xFFFF6E40);
 }

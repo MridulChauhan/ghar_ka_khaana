@@ -2,7 +2,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/screenutil.dart';
 import 'package:ghar_ka_khaana/components/boxlogin_textfield.dart';
+import 'package:ghar_ka_khaana/components/wide_button.dart';
 import 'package:ghar_ka_khaana/screens/login/login_button.dart';
+import 'package:ghar_ka_khaana/screens/login/otp_screen.dart';
 import 'package:ghar_ka_khaana/services/sign_in.dart';
 import 'package:ghar_ka_khaana/utils/constants.dart';
 import 'package:ghar_ka_khaana/utils/routes.dart';
@@ -16,8 +18,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String phoneNumber = "";
+  String phoneNumber;
   TextEditingController _phoneController = TextEditingController();
+
+  bool isValidEntry() {
+    if (_phoneController.text.length == 10)
+      return true;
+    else
+      return false;
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
@@ -62,17 +78,17 @@ class _LoginPageState extends State<LoginPage> {
             // ),
             BoxLoginTextfield(
               controller: _phoneController,
-              autoFocus: true,
-              isDataValid: true,
+              inputType: TextInputType.number,
+              autoFocus: false,
               fieldHeight: ScreenUtil().setHeight(50.0),
               leading: Text(
                 '+91',
                 style: _theme.textTheme.headline2,
               ),
-              acceptedColor: AppColors.blueGrey,
               rejectColor: Colors.red,
-              //inputType: String,
-              //maxLength: 200,
+              acceptedColor: Colors.green,
+              isDataValid: isValidEntry() ? true : false,
+              maxLength: 10,
               onChanged: (value) {
                 setState(() {
                   phoneNumber = value;
@@ -83,42 +99,46 @@ class _LoginPageState extends State<LoginPage> {
             Spacer(
               flex: 2,
             ),
-            Container(
-              width: 0.5 * ScreenUtil.screenWidth,
-              height: ScreenUtil().setHeight(50),
-              child: RaisedButton(
-                color: AppColors.buttonclr,
-                disabledColor: AppColors.whiteShade2,
-                onPressed: () => Navigator.pop(context),
-                child: Text(
-                  'Send OTP',
-                ),
-              ),
+            WideButton(
+              text: "Send OTP",
+              isEnabled: isValidEntry(),
+              onPress: () => isValidEntry()
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OTPScreen(
+                          phoneNumber: phoneNumber,
+                        ),
+                      ),
+                    )
+                  : null,
             ),
             Spacer(),
-            Row(children: <Widget>[
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 0.5 * AppConstants.horizontalPadding,
-                        right: 0.75 * AppConstants.horizontalPadding),
-                    child: Divider(
-                      color: AppColors.dividerclr,
-                      height: ScreenUtil().setHeight(50),
-                    )),
-              ),
-              Text("OR"),
-              Expanded(
-                child: Container(
-                    margin: const EdgeInsets.only(
-                        left: 0.75 * AppConstants.horizontalPadding,
-                        right: 0.5 * AppConstants.horizontalPadding),
-                    child: Divider(
-                      color: AppColors.dividerclr,
-                      height: ScreenUtil().setHeight(50),
-                    )),
-              ),
-            ]),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 0.5 * AppConstants.horizontalPadding,
+                          right: 0.75 * AppConstants.horizontalPadding),
+                      child: Divider(
+                        color: AppColors.dividerclr,
+                        height: ScreenUtil().setHeight(50),
+                      )),
+                ),
+                Text("OR"),
+                Expanded(
+                  child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 0.75 * AppConstants.horizontalPadding,
+                          right: 0.5 * AppConstants.horizontalPadding),
+                      child: Divider(
+                        color: AppColors.dividerclr,
+                        height: ScreenUtil().setHeight(50),
+                      )),
+                ),
+              ],
+            ),
             // Row(
             //   children: <Widget>[
             //     Text(
@@ -160,9 +180,11 @@ class _LoginPageState extends State<LoginPage> {
               loginType: "Continue with Email",
               icon: AssetImage('assets/gmail.png'),
               onPress: () =>
-                  Navigator.pushNamed(context, AppRoutes.emailLoginPage),
+                  Navigator.pushNamed(context, AppRoutes.emailsignUpScreen),
             ),
-            Spacer(),
+            Spacer(
+              flex: 3,
+            ),
             Text(
               'By continuing you agree to our \n',
               textAlign: TextAlign.center,
