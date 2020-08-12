@@ -75,7 +75,7 @@ class LandingPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30.0),
                       child: MaterialButton(
                         minWidth: ScreenUtil().setWidth(115),
-                        onPressed: () =>
+                        onPressed: () => //AuthService().handleAuth(),
                             Navigator.pushNamed(context, AppRoutes.loginPage),
                         height: ScreenUtil().setHeight(10.0),
                         child: Text(

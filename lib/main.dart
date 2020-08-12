@@ -5,7 +5,6 @@ import 'package:ghar_ka_khaana/screens/login/email_login.dart';
 import 'package:ghar_ka_khaana/screens/login/email_signup.dart';
 import 'package:ghar_ka_khaana/screens/login/login_page.dart';
 import 'package:ghar_ka_khaana/screens/home_screen.dart';
-import 'package:ghar_ka_khaana/screens/login/otp_screen.dart';
 import 'package:ghar_ka_khaana/utils/utils.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,14 +14,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   WidgetsFlutterBinding.ensureInitialized();
-  await initHive();
+  //await initHive();
   runApp(MyApp());
 }
 
-Future<void> initHive() {
-  //Hive.registerAdapter<User>();
-  //Hive.openBox('auth');
-}
+// Future<void> initHive() {
+//   Hive.registerAdapter<User>();
+//   Hive.openBox('auth');
+// }
 
 class MyApp extends StatelessWidget {
   @override
@@ -36,7 +35,6 @@ class MyApp extends StatelessWidget {
         AppRoutes.loginPage: (context) => LoginPage(),
         AppRoutes.homePage: (context) => HomeScreen(),
         AppRoutes.emailLoginPage: (context) => EmailLoginScreen(),
-        AppRoutes.otpScreen: (context) => OTPScreen(),
         AppRoutes.emailsignUpScreen: (context) => SignUpScreen(),
       },
     );

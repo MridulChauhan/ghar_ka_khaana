@@ -11,17 +11,32 @@ class EmailLoginScreen extends StatefulWidget {
 }
 
 class _EmailLoginScreenState extends State<EmailLoginScreen> {
-  String email;
-  String password;
+  String _email;
+  String _password;
+  bool isLoading = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  //TextEditingController _boxController = TextEditingController();
+
+  bool isValidEntry() {
+    if (_email != null &&
+        _password != null &&
+        _email.contains("@") &&
+        _password.length > 6)
+      return true;
+    else
+      return false;
+  }
+
+  void loginUser() async {
+    setState(() => isLoading = !isLoading);
+    await SignInMethods().loginUser(context, _email, _password);
+    setState(() => isLoading = !isLoading);
+  }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    //_boxController.dispose();
     super.dispose();
   }
 
@@ -29,109 +44,65 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: AppDecoration.backgroundGradient,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: AppColors.scbkd1,
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.black),
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          "Login",
+          style: _theme.textTheme.headline1,
+        ),
+        backgroundColor: AppColors.scbkd1,
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: 0.8 * AppConstants.verticalPadding,
+            horizontal: 1.5 * AppConstants.horizontalPadding),
         child: Column(
           children: <Widget>[
-            Expanded(
-              child: Container(
-                decoration: AppDecoration.cardBoardDecoration,
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: 1.5 * AppConstants.horizontalPadding),
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(height: ScreenUtil().setHeight(30)),
-                        Container(
-                          decoration: AppDecoration.containerdcrt,
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 0.5 * AppConstants.cnstPadding),
-                                child: Text(
-                                  'Try typing something !',
-                                  style: _theme.textTheme.headline1,
-                                ),
-                              ),
-                              // LoginTextField(
-                              //   textController: _emailController,
-                              //   isEditEnabled: true,
-                              //   onChanged: (value) =>
-                              //       setState(() => email = value),
-                              // ),
-                              // LoginTextField(
-                              //   textController: _passwordController,
-                              //   isEditEnabled: true,
-                              //   onChanged: (value) =>
-                              //       setState(() => password = value),
-                              // ),
-
-                              SizedBox(height: ScreenUtil().setHeight(10)),
-                              TextField(
-                                onChanged: (newValue) {
-                                  email = newValue;
-                                },
-                                keyboardType: TextInputType.emailAddress,
-                                textAlign: TextAlign.center,
-                                decoration: InputDecoration(
-                                    hintText: "Enter your Email id",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none),
-                              ),
-                              Divider(thickness: 1, color: Colors.grey[200]),
-                              TextField(
-                                onChanged: (newValue) {
-                                  password = newValue;
-                                },
-                                textAlign: TextAlign.center,
-                                obscureText: true,
-                                decoration: InputDecoration(
-                                    hintText: "Enter your Password",
-                                    hintStyle: TextStyle(color: Colors.grey),
-                                    border: InputBorder.none),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: ScreenUtil().setHeight(20)),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            RoundedButton(
-                              minWidth: ScreenUtil().setWidth(130),
-                              colour: Colors.lightBlue[900],
-                              text: 'Login',
-                              onPress: () async {
-                                if (email != null && password != null) {
-                                  CircularProgressIndicator();
-                                  await SignInMethods()
-                                      .loginUser(context, email, password);
-                                }
-                              },
-                            ),
-                            SizedBox(width: ScreenUtil().setWidth(10)),
-                            RoundedButton(
-                              minWidth: ScreenUtil().setWidth(130),
-                              colour: Colors.lightBlue[900],
-                              onPress: () async {
-                                if (email != null && password != null) {
-                                  CircularProgressIndicator();
-                                  await SignInMethods()
-                                      .registerUser(context, email, password);
-                                }
-                              },
-                              text: 'Register',
-                            ),
-                          ],
-                        ),
-                      ],
+            LoginTextField(
+              labeltext: "Email",
+              //autofocus: true,
+              onChanged: (value) {
+                setState(() {
+                  _email = value;
+                });
+              },
+            ),
+            SizedBox(
+              height: ScreenUtil().setHeight(30),
+            ),
+            LoginTextField(
+              labeltext: "Password",
+              obscuretext: true,
+              onChanged: (value) {
+                setState(() {
+                  _password = value;
+                });
+              },
+            ),
+            SizedBox(
+              height: ScreenUtil().setHeight(30),
+            ),
+            AnimatedSwitcher(
+              duration: Duration(milliseconds: 400),
+              switchInCurve: Curves.easeInCubic,
+              switchOutCurve: Curves.easeInCubic,
+              transitionBuilder: (Widget child, Animation<double> animation) =>
+                  ScaleTransition(child: child, scale: animation),
+              child: isLoading
+                  ? CircularProgressIndicator(
+                      valueColor:
+                          AlwaysStoppedAnimation<Color>(AppColors.buttonclr),
+                      strokeWidth: 5,
+                    )
+                  : WideButton(
+                      text: "Login",
+                      isEnabled: isValidEntry(),
+                      onPress: () async => isValidEntry() ? loginUser() : null,
                     ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),

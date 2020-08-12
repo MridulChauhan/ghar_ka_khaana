@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ghar_ka_khaana/components/components.dart';
 import 'package:ghar_ka_khaana/services/sign_in.dart';
 
 class HomeScreen extends StatefulWidget {
+  final FirebaseUser user;
+  HomeScreen({this.user});
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -36,6 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: _theme.textTheme.headline1,
           ),
           SizedBox(height: 50),
+          Text("Welcome ${widget.user}"),
           FlatButton(
             onPressed: () {
               SignInMethods().signOutGoogle();
